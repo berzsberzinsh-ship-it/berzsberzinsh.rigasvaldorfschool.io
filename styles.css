@@ -1,17 +1,64 @@
+/* Reset and Base Style */
+html, body {
+    width: 100%;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+    box-sizing: border-box;
+}
+
+*, *::before, *::after {
+    box-sizing: inherit; /* Apply to all elements */
+}
+
+/* Default (Light) Theme Variables */
+:root {
+    --bg-color: #f9f9f9; /* Background */
+    --text-color: #333; /* Text */
+    --header-bg: #4a7c59; /* Example header color */
+    --card-bg: white; /* Cards or sections */
+    --border-color: #ddd; /* Borders */
+    --accent-color: #7123a5; /* Buttons, accents (zaļš, waldorf stilā) */
+     --secondary-accent: #7123a5; /* Logout button (violets) */
+    --day-bg: #f0f8ff; /* Day backgrounds */
+    --day-border: #4a7c59; /* Day left border */
+    --transition: 0.3s; /* For smooth changes */
+    --error-color: red; /* Errors */
+    --modal-bg: #fefefe; /* Modal background */
+    --modal-overlay: rgba(0,0,0,0.4); /* Modal overlay */
+}
+
+/* Dark Theme Overrides */
+.dark-mode {
+    --bg-color: #121212; /* Dark background */
+    --text-color: #e0e0e0; /* Light text */
+    --header-bg: #4a7c59; /* #2e4d3a Darker green header */
+    --card-bg: #1e1e1e; /* Dark cards */
+    --border-color: #333; /* Dark borders */
+    --accent-color: #5a8c6a; /* Lighter green for dark mode */
+    --accent-color: #5a1e8c; /* Darker purple for logout */
+    --day-bg: #4a7c59; /* Dark day backgrounds */
+    --day-border: #2a3a2a; /* #2a3a2a Lighter green border */
+    --error-color: #ff6b6b; /* Brighter red for dark */
+    --modal-bg: #2a2a2a; /* Dark modal */
+    --modal-overlay: rgba(0,0,0,0.6); /* Darker overlay */
+}
+
+/* Apply Variables to Elements */
 body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color var(--transition), color var(--transition);
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 20px;
-    background-color: #f9f9f9;
-    color: #333;
     line-height: 1.6;
 }
 
 header {
-    text-align: center;
-    background-color:  #4a7c59; /* Green, Waldorf-inspired */
-    color: white;
+    background-color: var(--header-bg); /* #4a7c59 Green, Waldorf-inspired */
+    color: var(--text-color); /* Adjust if needed */
     padding: 20px;
+    text-align: center;
+    transition: background-color var(--transition);
     margin-bottom: 20px;
     border-radius: 8px;
 }
@@ -25,61 +72,78 @@ header {
     padding: 12px;
     width: 300px;
     max-width: 80%;
-    border: 2px solid #4a7c59;
+    border: 2px solid var(--accent-color);
     border-radius: 4px;
     font-size: 16px;
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    transition: border-color var(--transition), background-color var(--transition), color var(--transition);
 }
 
 button {
     padding: 12px 20px;
-    background-color: #7123a5;
+    background-color: var(--accent-color);
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     margin-left: 10px;
+    transition: background-color var(--transition);
 }
 
 button:hover {
-    background-color: #3a5c49;
+    background-color: var(--secondary-accent); /* Nedaudz tumšāks efekts dark mode */;
 }
 
 #results {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-    max-width: 1200px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Reduce min from 300px to 250px for smaller screens */
+    gap: 15px; /* Slightly smaller gap */
+    max-width: 100%; /*Override to full width */
     margin: 0 auto;
 }
 
-.card {
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 8px;
+.card { /* Example for sections or cards */
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
     padding: 20px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    transition: background-color var(--transition), border-color var(--transition);
+}
+
+.sub-card {
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color); /* Light separator line */
+}
+
+.sub-card:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none; /* No separator on the last one */
 }
 
 .card h3 {
-    color: #4a7c59;
+    color: var(--accent-color);
     margin-top: 0;
 }
 
 .card .teacher {
     font-weight: bold;
-    color: #666;
+    color: var(--text-color);
 }
 
 .card .location {
     font-style: italic;
-    color: #888;
+    color: #888; /* Saglabā tumšāku dark mode, bet vari mainīt uz var(--text-color) */
 }
 
 .day {
     margin: 10px 0;
     padding: 8px;
-    background: #f0f8ff;
-    border-left: 4px solid #4a7c59;
+    background: var(--day-bg);
+    border-left: 4px solid var(--day-border);
+    transition: background var(--transition), border-left-color var(--transition);
 }
 
 .hidden {
@@ -88,7 +152,7 @@ button:hover {
 
 #noResults {
     text-align: center;
-    color: #666;
+    color: var(--text-color);
     font-style: italic;
     margin: 20px;
 }
@@ -97,9 +161,10 @@ footer {
     text-align: center;
     margin-top: 40px;
     padding: 15px;
-    background-color: #7123a5;
+    background-color: var(--secondary-accent);
     color: white;
     border-radius: 8px;
+    transition: background-color var(--transition);
 }
 
 footer a {
@@ -107,21 +172,7 @@ footer a {
     text-decoration: none;
 }
 
-@media (max-width: 768px) {
-    #searchInput {
-        width: 90%;
-    }
-    button {
-        margin-top: 10px;
-        display: block;
-        width: 100%;
-    }
-    .card {
-        padding: 15px;
-    }
-}
-
-/* Esošie stili paliek, pievieno šos: */
+/* Modal Styles (adapted for dark mode) */
 .modal {
     display: block; /* Parādās uzreiz */
     position: fixed;
@@ -131,18 +182,21 @@ footer a {
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(0,0,0,0.4);
+    background-color:  var(--modal-overlay);
+    transition: background-color var(--transition);
 }
 
 .modal-content {
-    background-color: #fefefe;
+    background-color: var(--modal-bg);
     margin: 15% auto;
     padding: 20px;
-    border: 1px solid #888;
+    border: 1px solid var(--border-color);
     width: 80%;
     max-width: 400px;
     border-radius: 8px;
     text-align: center;
+    color: var(--text-color);
+    transition: background-color var(--transition), color var(--transition), border-color var(--transition);
 }
 
 .close {
@@ -151,44 +205,119 @@ footer a {
     font-size: 28px;
     font-weight: bold;
     cursor: pointer;
+    transition: color var(--transition);
 }
 
 .close:hover {
-    color: black;
+    color: var(--text-color);
 }
 
 #loginForm input {
     width: 100%;
     padding: 10px;
     margin: 10px 0;
-    border: 1px solid #4a7c59;
+    border: 1px solid var(--accent-color);
     border-radius: 4px;
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    transition: border-color var(--transition), background-color var(--transition), color var(--transition);
 }
 
 #loginForm button {
     width: 100%;
     padding: 10px;
-    background-color: #4a7c59;
+    background-color: var(--accent-color);
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    transition: background-color var(--transition);
 }
 
 .error {
-    color: red;
+    color: var(--error-color);
     margin-top: 10px;
-}
-
-.hidden {
-    display: none;
 }
 
 /* Logout poga */
 .search-section button:last-child {
-    background-color: #d9534f; /* Sarkana logout */
+    background-color: var(--secondary-accent); /* Sarkana logout */
 }
 
 .search-section button:last-child:hover {
-    background-color: #c9302c;
+    background-color: darken(var(--secondary-accent), 10%); /* Vai specifiska krāsa, piem. #c9302c dark mode */
+}
+
+/* Dark Mode Toggle Button */
+.theme-toggle {
+    background-color: var(--accent-color);
+    border: none;
+    padding: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    margin-left: 10px;
+    color: white;
+    font-size: 18px;
+    transition: background-color var(--transition);
+}
+
+.theme-toggle:hover {
+    background-color: var(--secondary-accent);
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    #searchInput {
+        width: 100%;
+        max-width: none;
+    }
+
+    button {
+        margin-top: 10px;
+        margin-left: 0;
+        display: block;
+        width: 100%;
+    }
+
+    .card {
+        padding: 15px;
+    }
+
+    #results {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .modal-content {
+        width: 95%;
+        margin: 20% auto;
+    }
+}
+
+@media (max-width: 480px) {
+    header {
+        padding: 15px;
+    }
+
+    .search-section {
+        margin-bottom: 20px;
+    }
+
+    .card {
+        padding: 10px;
+    }
+
+    .day {
+        padding: 6px;
+        margin: 5px 0;
+    }
+
+    footer {
+        padding: 10px;
+    }
 }

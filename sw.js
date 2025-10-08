@@ -4,7 +4,10 @@ const urlsToCache = [
     '/index.html',
     '/styles.css',
     '/script.js',
-    '/schedule.pdf' // Ja PDF ir mapē
+    '/schedule.pdf', // Ja PDF ir mapē
+    '/manifest.json',
+    '/icon-192.png',
+    '/icon-512.png'
 ];
 
 self.addEventListener('install', (event) => {

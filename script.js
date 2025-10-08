@@ -1,38 +1,5 @@
-// Jauns: Login loģika
-const CORRECT_PASSWORD = 'vecakiem2025'; // Maini šo uz savu paroli
-
-document.addEventListener('DOMContentLoaded', () => {
-    generateSuggestions();
-    // Rādi login modalu, slēpj galveno saturu
-    document.getElementById('mainContent').classList.add('hidden');
-    document.getElementById('loginModal').classList.remove('hidden');
-    showAll(); // Sagatavo saturu fonā
-});
-
-document.getElementById('loginForm').addEventListener('submit', (e) => {
-    e.preventDefault();
-    const password = document.getElementById('passwordInput').value;
-    if (password === CORRECT_PASSWORD) {
-        document.getElementById('loginModal').classList.add('hidden');
-        document.getElementById('mainContent').classList.remove('hidden');
-        document.getElementById('passwordInput').value = ''; // Notīri lauku
-    } else {
-        document.getElementById('loginError').classList.remove('hidden');
-    }
-});
-
-function closeLogin() {
-    document.getElementById('loginModal').classList.add('hidden');
-    // Ja aizver bez paroles, varbūt atsvaidzināt lapu vai brīdināt
-    alert('Lai turpinātu, lūdzu, ievadiet paroli!');
-}
-
-function logout() {
-    document.getElementById('mainContent').classList.add('hidden');
-    document.getElementById('loginModal').classList.remove('hidden');
-    document.getElementById('loginError').classList.add('hidden');
-    document.getElementById('searchInput').value = ''; // Notīri meklēšanu
-}
+// Konsaktants parole vienam semestrim
+const CORRECT_PASSWORD = 'vecakiem2025';
 
 // Pilni grafika dati latviešu valodā (parsēti no PDF)
 const scheduleData = [
@@ -459,12 +426,12 @@ function performSearch(query) {
     if (scheduleData.some(item => item.teacher.toLowerCase().includes(lowerQuery))) {
         searchType = 'teacher';
         results = scheduleData.filter(item => item.teacher.toLowerCase().includes(lowerQuery));
-    } 
+    }
     // Tad pulciņu
     else if (scheduleData.some(item => item.name.toLowerCase().includes(lowerQuery))) {
         searchType = 'club';
         results = scheduleData.filter(item => item.name.toLowerCase().includes(lowerQuery));
-    } 
+    }
     // Tad klasi - ar precīzu saskaņošanu paralēlēm un diapazoniem
     else {
         searchType = 'class';
@@ -476,9 +443,9 @@ function performSearch(query) {
             results = scheduleData.filter(item => {
                 const cls = item.classes.toLowerCase();
                 // Meklē precīzu saskaņošanu: tieši "2.a" vai visa klase "2" vai diapazoni, kas ietver klases numuru (piem. "2.-4" ietver 2)
-                return cls.includes(exactClass) || 
-                       cls.includes(grade + '.') || 
-                       cls.includes(grade + '.-') || 
+                return cls.includes(exactClass) ||
+                       cls.includes(grade + '.') ||
+                       cls.includes(grade + '.-') ||
                        cls.includes('.' + grade + '.') ||
                        cls.includes(grade + ',');
             });
@@ -564,9 +531,73 @@ function clearSearch() {
     showAll();
 }
 
-// Notikumu klausītāji
-document.getElementById('searchInput').addEventListener('input', (e) => performSearch(e.target.value));
+// Dark Mode Toggle
+function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+    const isDark = document.body.classList.contains('dark-mode');
+    localStorage.setItem('darkMode', isDark);
+    const toggleBtn = document.querySelector('#theme-toggle');
+    toggleBtn.innerHTML = isDark ? '☀️' : '🌙';
+}
+
+// Login modal functions
+function closeLogin() {
+    const loginModal = document.getElementById('loginModal');
+    if (loginModal) loginModal.style.display = 'none';
+    alert('Lai turpinātu, lūdzu, ievadiet paroli!');
+}
+
+function logout() {
+    const mainContent = document.getElementById('mainContent');
+    const loginModal = document.getElementById('loginModal');
+    const loginError = document.getElementById('loginError');
+    if (mainContent) mainContent.classList.add('hidden');
+    if (loginModal) loginModal.style.display = 'block';
+    if (loginError) loginError.classList.add('hidden');
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) searchInput.value = '';
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     generateSuggestions();
-    showAll(); // Rādīt visu ielādēšanas brīdī
+    showAll(); // Sagatavo saturu fonā
+
+    // Ielādē saglabāto dark mode
+    const savedMode = localStorage.getItem('darkMode');
+    if (savedMode === 'true') {
+        document.body.classList.add('dark-mode');
+        const toggleBtn = document.querySelector('#theme-toggle');
+        if (toggleBtn) toggleBtn.innerHTML = '☀️';
+    }
+
+    // Rādi login modalu, slēpj galveno saturu
+    const mainContent = document.getElementById('mainContent');
+    const loginModal = document.getElementById('loginModal');
+    if (mainContent) mainContent.classList.add('hidden');
+    if (loginModal) loginModal.classList.remove('hidden');
+
+    // Event listeners
+    const loginForm = document.getElementById('loginForm');
+    if (loginForm) {
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const passwordInput = document.getElementById('passwordInput');
+            const password = passwordInput ? passwordInput.value : '';
+            const loginError = document.getElementById('loginError');
+            if (password === CORRECT_PASSWORD) {
+                if (loginModal) loginModal.style.display = 'none';
+                if (mainContent) mainContent.classList.remove('hidden');
+                if (passwordInput) passwordInput.value = '';
+                if (loginError) loginError.classList.add('hidden');
+            } else {
+                if (loginError) loginError.classList.remove('hidden');
+            }
+        });
+    }
+
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) searchInput.addEventListener('input', (e) => performSearch(e.target.value));
+
+    const themeToggle = document.getElementById('theme-toggle');
+    if (themeToggle) themeToggle.addEventListener('click', toggleDarkMode);
 });
