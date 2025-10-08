@@ -13,7 +13,7 @@ html, body {
 :root {
     --bg-color: #f9f9f9; /* Background */
     --text-color: #333; /* Text */
-    --header-bg: #4a7c59; /* Example header color */
+    --header-bg: #1be357; /* Example header color */
     --card-bg: white; /* Cards or sections */
     --border-color: #ddd; /* Borders */
     --accent-color: #7123a5; /* Buttons, accents (zaļš, waldorf stilā) */
@@ -33,7 +33,7 @@ html, body {
     --header-bg: #4a7c59; /* #2e4d3a Darker green header */
     --card-bg: #1e1e1e; /* Dark cards */
     --border-color: #333; /* Dark borders */
-    --accent-color: #5a8c6a; /* Lighter green for dark mode */
+    --accent-color: #2dc75e; /* Lighter green for dark mode */
     --accent-color: #5a1e8c; /* Darker purple for logout */
     --day-bg: #4a7c59; /* Dark day backgrounds */
     --day-border: #2a3a2a; /* #2a3a2a Lighter green border */
