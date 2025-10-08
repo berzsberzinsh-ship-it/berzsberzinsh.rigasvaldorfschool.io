@@ -1,0 +1,194 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f9f9f9;
+    color: #333;
+    line-height: 1.6;
+}
+
+header {
+    text-align: center;
+    background-color:  #4a7c59; /* Green, Waldorf-inspired */
+    color: white;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+}
+
+.search-section {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+#searchInput {
+    padding: 12px;
+    width: 300px;
+    max-width: 80%;
+    border: 2px solid #4a7c59;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+button {
+    padding: 12px 20px;
+    background-color: #7123a5;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+button:hover {
+    background-color: #3a5c49;
+}
+
+#results {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.card {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.card h3 {
+    color: #4a7c59;
+    margin-top: 0;
+}
+
+.card .teacher {
+    font-weight: bold;
+    color: #666;
+}
+
+.card .location {
+    font-style: italic;
+    color: #888;
+}
+
+.day {
+    margin: 10px 0;
+    padding: 8px;
+    background: #f0f8ff;
+    border-left: 4px solid #4a7c59;
+}
+
+.hidden {
+    display: none;
+}
+
+#noResults {
+    text-align: center;
+    color: #666;
+    font-style: italic;
+    margin: 20px;
+}
+
+footer {
+    text-align: center;
+    margin-top: 40px;
+    padding: 15px;
+    background-color: #7123a5;
+    color: white;
+    border-radius: 8px;
+}
+
+footer a {
+    color: white;
+    text-decoration: none;
+}
+
+@media (max-width: 768px) {
+    #searchInput {
+        width: 90%;
+    }
+    button {
+        margin-top: 10px;
+        display: block;
+        width: 100%;
+    }
+    .card {
+        padding: 15px;
+    }
+}
+
+/* Esošie stili paliek, pievieno šos: */
+.modal {
+    display: block; /* Parādās uzreiz */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 400px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: black;
+}
+
+#loginForm input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #4a7c59;
+    border-radius: 4px;
+}
+
+#loginForm button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4a7c59;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.error {
+    color: red;
+    margin-top: 10px;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Logout poga */
+.search-section button:last-child {
+    background-color: #d9534f; /* Sarkana logout */
+}
+
+.search-section button:last-child:hover {
+    background-color: #c9302c;
+}

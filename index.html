@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rīgas Valdorfskolas Interešu Izglītības Plānojums 2025/2026</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="styles.css"> <!-- Pievieno, ja aizmirsi — tas ir vajadzīgs! -->
+</head>
+<body>
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeLogin()">&times;</span>
+            <h2>Ienākt sistēmā</h2>
+            <p>Lai redzētu grafiku, lūdzu, ievadīt paroli.</p> <!-- Mainīts uz jauno paroli -->
+            <form id="loginForm">
+                <input type="password" id="passwordInput" placeholder="Parole" required>
+                <button type="submit">Ienākt</button>
+            </form>
+            <p id="loginError" class="error hidden">Nepareiza parole. Pamēģiniet vēlreiz!</p>
+        </div>
+    </div>
+
+    <!-- Galvenais saturs (slēpts līdz login) -->
+    <div id="mainContent" class="hidden">
+        <header>
+            <h1>Rīgas Valdorfskolas Interešu Izglītības Plānojums</h1>
+            <p>I semestris 2025/2026</p>
+        </header>
+
+        <main>
+            <div class="search-section">
+                <label for="searchInput">Meklēt pēc pulciņa, skolotāja vai klases:</label> <!-- Pievienoju piemērus atpakaļ, lai vecāki saprastu ātrāk -->
+                <input type="text" id="searchInput" list="suggestions" placeholder="Ierakstiet šeit...">
+                <datalist id="suggestions"></datalist>
+                <button onclick="clearSearch()">Notīrīt</button>
+                <button onclick="logout()">Iziet</button>
+            </div>
+
+            <div id="results"></div>
+            <div id="noResults" class="hidden">Nav atrast atbilstošu. Pamēģiniet citu meklēšanu!</div>
+        </main>
+
+        <footer>
+            <p>Interešu izglītības plānojums 25/26 RVDS I.sem. Kontakts: A. Lāce, 27493715</p>
+            <a href="schedule.pdf" download>Lejupielādēt PDF</a>
+        </footer>
+    </div>
+
+    <script src="script.js"></script> <!-- Pārliecinies, ka tas ir šeit, pirms service worker -->
+
+    <script>
+        // Reģistrē service worker PWA offline (pārvietots ārā no mainContent)
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js').then(() => {
+                console.log('PWA service worker reģistrēts!');
+            }).catch((error) => {
+                console.log('Service worker reģistrēšanās kļūda:', error);
+            });
+        }
+    </script>
+</body>
+</html>
