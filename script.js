@@ -412,6 +412,14 @@ function generateSuggestions() {
     datalist.innerHTML = sortedSuggestions.map(s => `<option value="${s}">`).join('');
 }
 
+// Funkcija, lai filtrētu attiecīgos laikus no dienas virknes
+function getRelevantTimes(dayTimes, searchClass) {
+    if (!dayTimes) return '';
+    const parts = dayTimes.split(';');
+    const relevant = parts.filter(part => part.toLowerCase().includes(searchClass.toLowerCase()));
+    return relevant.join('; ') || '';
+}
+
 // Meklēšanas un filtrēšanas funkcija
 function performSearch(query) {
     if (!query) {
@@ -438,16 +446,22 @@ function performSearch(query) {
         // Izvelk klases numuru no vaicājuma (piem., "2.a" -> "2")
         const gradeMatch = lowerQuery.match(/(\d+)/);
         const exactClass = lowerQuery.replace(/\s*/g, ''); // Noņem atstarpes, piem. "2.a"
+        const isSpecific = /[a-z]/.test(exactClass); // Ja ir burts, tad specifiska paralēle
         if (gradeMatch) {
             const grade = gradeMatch[1];
             results = scheduleData.filter(item => {
                 const cls = item.classes.toLowerCase();
-                // Meklē precīzu saskaņošanu: tieši "2.a" vai visa klase "2" vai diapazoni, kas ietver klases numuru (piem. "2.-4" ietver 2)
-                return cls.includes(exactClass) ||
-                       cls.includes(grade + '.') ||
-                       cls.includes(grade + '.-') ||
-                       cls.includes('.' + grade + '.') ||
-                       cls.includes(grade + ',');
+                if (isSpecific) {
+                    // Ja specifiska paralēle, rāda TIKAI tās, kur classes ietver precīzi šo paralēli (piem. "1.a" -> tikai "1.a")
+                    return cls.includes(exactClass);
+                } else {
+                    // Ja nav specifisks (tikai "2"), parāda visu klasi ar grade + '. vai etc
+                    return cls.includes(exactClass) ||
+                           cls.includes(grade + '.') ||
+                           cls.includes(grade + '.-') ||
+                           cls.includes('.' + grade + '.') ||
+                           cls.includes(grade + ',');
+                }
             });
         } else {
             // Rezerves variants precīzai saskaņošanai
@@ -479,11 +493,11 @@ function renderResults(items, searchType, query) {
                     <div class="teacher">Skolotāja: ${item.teacher || 'TBD'}</div>
                     <div class="name">${item.name}</div>
                     <div class="location">Nodarbību vieta: ${item.location}</div>
-                    ${item.mon ? `<div class="day">Pirmdiena: ${item.mon}</div>` : ''}
-                    ${item.tue ? `<div class="day">Otrdiena: ${item.tue}</div>` : ''}
-                    ${item.wed ? `<div class="day">Trešdiena: ${item.wed}</div>` : ''}
-                    ${item.thu ? `<div class="day">Ceturtdiena: ${item.thu}</div>` : ''}
-                    ${item.fri ? `<div class="day">Piektdiena: ${item.fri}</div>` : ''}
+                    ${getRelevantTimes(item.mon, query) ? `<div class="day">Pirmdiena: ${getRelevantTimes(item.mon, query)}</div>` : ''}
+                    ${getRelevantTimes(item.tue, query) ? `<div class="day">Otrdiena: ${getRelevantTimes(item.tue, query)}</div>` : ''}
+                    ${getRelevantTimes(item.wed, query) ? `<div class="day">Trešdiena: ${getRelevantTimes(item.wed, query)}</div>` : ''}
+                    ${getRelevantTimes(item.thu, query) ? `<div class="day">Ceturtdiena: ${getRelevantTimes(item.thu, query)}</div>` : ''}
+                    ${getRelevantTimes(item.fri, query) ? `<div class="day">Piektdiena: ${getRelevantTimes(item.fri, query)}</div>` : ''}
                 </div>
             `).join('')}
         </div>`;
