@@ -18,14 +18,26 @@ const scheduleData = [
     {
         name: "2. –4. klašu koris",
         hours: 2,
-        location: "Kalnciema iela 160 / zāle, 108., 3.m, zāle, 101.",
-        teacher: "Dace Valdemāre, Inga Bērziņa",
-        mon: "14.00-14.50 (2.m-3.m)",
+        location: "Kalnciema iela 160 / zāle, 108.",
+        teacher: "Dace Valdemāre",
+        mon: "",
         tue: "",
         wed: "",
         thu: "14.00-14.50 (2.-4. a,b kl. koristi (3.m, 4.m meit.))",
         fri: "14.00-15.00 (2.-4. kl.)",
-        classes: "2.a, 2.b, 2.m, 3.m, 4.m"
+        classes: "2, 3, 4"
+    },
+    {
+        name: "2. –4. klašu koris",
+        hours: 2,
+        location: "Kalnciema iela 160 / zāle, 101.",
+        teacher: "Inga Bērziņa",
+        mon: "14.00-14.50 (2.m-3.m)",
+        tue: "",
+        wed: "",
+        thu: "",
+        fri: "14.00-15.00 (2.-4. kl.)",
+        classes: "2, 3, 4"
     },
     {
         name: "4. –7. klašu zēnu koris",
@@ -138,7 +150,7 @@ const scheduleData = [
     {
         name: "Vizuālās mākslas studija",
         hours: 3,
-        location: "Kalnciema iela 160 / 1. st. 3.a kl. un 84.",
+        location: "Kalnciema iela 160 / 84.",
         teacher: "Elīna Šteinberga",
         mon: "",
         tue: "",
@@ -181,7 +193,7 @@ const scheduleData = [
         wed: "",
         thu: "14.50-17.00 (5.-6.kl.)",
         fri: "",
-        classes: "5., 6."
+        classes: "5, 6"
     },
     {
         name: "Veidošana",
