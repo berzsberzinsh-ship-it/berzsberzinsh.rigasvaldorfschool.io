@@ -275,6 +275,7 @@ footer a {
     #searchInput {
         width: 100%;
         max-width: none;
+        padding: 10px;
     }
 
     button {
@@ -282,6 +283,7 @@ footer a {
         margin-left: 0;
         display: block;
         width: 100%;
+        padding: 10px;
     }
 
     .card {
@@ -296,28 +298,64 @@ footer a {
     .modal-content {
         width: 95%;
         margin: 20% auto;
+        padding: 15px;
+    }
+
+    header {
+        padding: 15px 10px;
+    }
+
+    footer {
+        padding: 15px 10px;
     }
 }
 
 @media (max-width: 480px) {
+    body {
+        padding: 5px;
+    }
+
     header {
-        padding: 15px;
+        padding: 10px;
+        margin-bottom: 10px;
     }
 
     .search-section {
         margin-bottom: 20px;
     }
 
+    #searchInput {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    button {
+        padding: 8px;
+        font-size: 14px;
+    }
+
     .card {
         padding: 10px;
+    }
+
+    .sub-card {
+        margin-bottom: 10px;
     }
 
     .day {
         padding: 6px;
         margin: 5px 0;
+        font-size: 14px;
+    }
+
+    .modal-content {
+        width: 98%;
+        margin: 50px auto;
+        padding: 10px;
     }
 
     footer {
         padding: 10px;
+        margin-top: 20px;
     }
 }
