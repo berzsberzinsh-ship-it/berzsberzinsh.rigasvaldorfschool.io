@@ -1,7 +1,7 @@
 // Konsaktants parole vienam semestrim
 const CORRECT_PASSWORD = 'vecakiem2025';
 
-// Pilni grafika dati latviešu valodā (parsēti no PDF)
+// Pilni grafika dati latviešu valodā
 const scheduleData = [
     {
         name: "1. klašu koris",
@@ -210,7 +210,7 @@ const scheduleData = [
     {
         name: "Kokapstrādes pulciņš",
         hours: 16,
-        location: "Kalnciema iela 160 / 107.",
+        location: "Kalnciema iela 160 / 107.kab",
         teacher: "Guntis Bērzs- Bērziņš",
         mon: "",
         tue: "15.40-16.20 (4.m kl.); 16.30-17.10 (2.b kl.); 17.20-18.00 (2.a kl.)",
@@ -402,7 +402,7 @@ const scheduleData = [
     }
 ];
 
-// Funkcija, lai ģenerētu ieteikumus datalistam - tikai individuālās paralēlās klases
+// Funkcija, lai ģenerētu dropdown - tikai individuālās paralēlās klases
 function generateSuggestions() {
     // Precīzs visu unikālo paralēlo klašu saraksts no grafika
     const allClasses = [
@@ -420,8 +420,8 @@ function generateSuggestions() {
         if (gradeA !== gradeB) return gradeA - gradeB;
         return a.localeCompare(b);
     });
-    const datalist = document.getElementById('suggestions');
-    datalist.innerHTML = sortedSuggestions.map(s => `<option value="${s}">`).join('');
+    const select = document.getElementById('searchInput');
+    select.innerHTML = '<option disabled selected value="">Izvēlieties klasi...</option>' + sortedSuggestions.map(s => `<option value="${s}">${s}</option>`).join('');
 }
 
 // Funkcija, lai filtrētu attiecīgos laikus no dienas virknes
@@ -622,7 +622,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const searchInput = document.getElementById('searchInput');
-    if (searchInput) searchInput.addEventListener('input', (e) => performSearch(e.target.value));
+    if (searchInput) searchInput.addEventListener('change', (e) => performSearch(e.target.value));
 
     const themeToggle = document.getElementById('theme-toggle');
     if (themeToggle) themeToggle.addEventListener('click', toggleDarkMode);
