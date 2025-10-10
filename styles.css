@@ -74,7 +74,7 @@ header {
 
 #searchInput {
     padding: 12px;
-    width: 100%; /* Mainīts no 300px — pilna platums, bet ierobežots */
+    width: 80%; /* Mainīts no 300px — pilna platums, bet ierobežots */
     max-width: 300px; /* Maksimāli 300px, bet mazākos ekrānos pielāgojas */
     border: 2px solid var(--accent-color);
     border-radius: 4px;
