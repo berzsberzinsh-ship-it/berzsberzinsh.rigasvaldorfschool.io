@@ -1,8 +1,87 @@
 // Konsaktants parole vienam semestrim
 const CORRECT_PASSWORD = 'vecakiem2025';
 
+// Address filter toggle // Comment: Filters by address
+let currentAddress = 'K'; // 'K' or 'Š'
+
+// Pulciņu laiki data (filtered by address inside)
+// Original scheduleData will be filtered
+
+// Manual edit area for konsultācijas data
+const konsultacijasDataK = [
+    { name: "1. klašu koris", hours: 2, location: "Kalnciema iela 160", telpa: "108", teacher: "Laila Kondratjeva", pirmdiena: "", otrdiena: "14.00-14.40 1.ab kl.", tresdiena: "", ceturtdiena: "", piektdiena: "13.10-13.50 1.m kl.", classes: "1" },
+    { name: "2.-4. klašu koris", hours: 2, location: "Kalnciema iela 160", telpa: "108", teacher: "Dace Valdemāre", pirmdiena: "", otrdiena: "", tresdiena: "", ceturtdiena: "14.00-14.50 (2.-4. a,b kl. koristi (3.m, 4.m meit.))", piektdiena: "14.00-15.00 (2.-4. kl.)", classes: "2., 3., 4." },
+    { name: "2.-4. klašu koris", hours: 2, location: "Kalnciema iela 160", telpa: "101", teacher: "Inga Bērziņa", pirmdiena: "14.00-14.50 (2.m-3.m)", otrdiena: "", tresdiena: "", ceturtdiena: "", piektdiena: "14.00-15.00 (2.-4. kl.)", classes: "2., 3., 4." },
+    // Add more from parse...
+    { name: "Paraugs", hours: 1, location: "Kalnciema iela 160", telpa: "310", teacher: "???",
+      pirmdiena: "", otrdiena: "", tresdiena: "", ceturtdiena: "", piektdiena: "",
+      classes: "???" }
+];
+
+const konsultacijasDataS = [
+    // Manual add for Š
+    { name: "5.-9. klašu zēnu koris", hours: 8, location: "Šampētera iela 98", telpa: "413", teacher: "Arta Pakalne-Stārka", pirmdiena: "15.00-16.20", otrdiena: "", tresdiena: "14.40-16.00", ceturtdiena: "", piektdiena: "", classes: "5.,6.,7.,8.,9." },
+];
+
+// Manual edit area for lesson times data from PDF
+const lessonTimesK = {
+    'Pirmdiena': [
+        { group: '1.-2.klase', lessons: ['1-2 8.30-10.00', '3 10.20-11.00', '4 11.10-11.50', 'P 11.50-12.20', '5 12.00-12.40', '6 13.10-13.50', '7 14.00-14.40', 'Launags 14.40-15.00', '8 14.50-15.30'] },
+        { group: '3.b,3.m-4.klase', lessons: ['1-2 8.30-10.00', '3 10.20-11.00', 'P 11.00-11.30', '4 11.30-12.10', '5 12.20-13.00', '6 13.10-13.50', '7 14.00-14.40', '8 14.50-15.30'] },
+        { group: '5.m', lessons: ['1 8.30-9.10', '2 9.20-10.00', '3 10.20-11.00', '4 11.10-11.50', '5 12.00-12.40', 'P 12.40-13.10', '6 13.10-13.50', '7 14.00-14.40', '8 14.50-15.30'] },
+        { group: '3.a;5.a,5.b;6.a,6.b', lessons: ['1-2 8.30-10.00', '3 10.20-11.00', '4 11.10-11.50', '5 12.20-13.00', '6 13.10-13.50', '7 14.00-14.40', '8 15.00-15.40'] }
+    ],
+    'Otrdiena': [
+        { group: '1.-2.klase', lessons: ['1-2 8.30-10.00', '3 10.20-11.00', '4 11.10-11.50', 'P 11.50-12.20', '5 12.00-12.40', '6 13.10-13.50', '7 14.00-14.40', 'Launags 14.40-15.00', '8 14.50-15.30'] },
+        { group: '3.-4.klase', lessons: ['1-2 8.30-10.00', '3 10.20-11.00', 'P 11.00-11.30', '4 11.30-12.10', '5 12.00-12.40', 'P 12.40-13.10', '6 13.10-13.50', '7 14.00-14.40', '8 15.00-15.40'] },
+        { group: '5.m', lessons: ['1 8.30-9.10', '2 9.20-10.00', '3 10.20-11.00', 'P 11.00-11.30', '4 11.30-12.10', '5 12.00-12.40', 'P 12.40-13.10', '6 13.10-13.50', '7 14.00-14.40', '8 15.00-15.40'] },
+        { group: '5.a,5.b;6.a,6.b', lessons: ['1-2 8.30-10.00', '3 10.20-11.00', '4 11.10-11.50', '5 12.20-13.00', '6 13.10-13.50', '7 14.00-14.40', '8 15.00-15.40'] }
+    ],
+    'Trešdiena': [
+        { group: '1.-2.klase', lessons: ['1-2 8.30-10.00', '3 10.20-11.00', '4 11.10-11.50', 'P 11.50-12.20', '5 12.00-12.40', '6 13.10-13.50', '7 14.00-14.40', 'Launags 14.40-15.00', '8 14.50-15.30'] },
+        { group: '2.m', lessons: ['1-2 8.30-10.00', '3 10.20-11.00', '4 11.10-11.50', 'P 11.50-12.20', '5 12.00-12.40', '6 13.10-13.50', '7 14.00-14.40', 'Launags 14.40-15.00', '8 14.50-15.30'] },
+        { group: '3.-4.a;4.m', lessons: ['1-2 8.30-10.00', '3 10.20-11.00', 'P 11.00-11.30', '4 11.30-12.10', '5 12.00-12.40', 'P 12.40-13.10', '6 13.10-13.50', '7 14.00-14.40', '8 15.00-15.40'] },
+        { group: '2.b', lessons: ['1-2 8.30-10.00', '3 10.20-11.00', 'P 11.50-12.20', '4 11.10-11.50', '5 12.00-12.40', 'P 12.40-13.10', '6 13.10-13.50', '7 14.00-14.40', '8 15.00-15.40'] },
+        { group: '4.b,5.a,6.a;6.b', lessons: ['1-2 8.30-10.00', '3 10.20-11.00', 'P 11.50-12.20', '4 11.30-12.10', '5 12.00-12.40', 'P 12.40-13.10', '6 13.20-14.00', '7 14.10-14.50', '8 15.00-15.40'] }
+    ],
+    'Ceturtdiena': [
+        { group: '1.-2.klase', lessons: ['1-2 8.30-10.00', '3 10.20-11.00', '4 11.10-11.50', 'P 11.50-12.20', '5 12.00-12.40', '6 13.10-13.50', '7 14.00-14.40', 'Launags 14.40-15.00', '8 14.50-15.30'] },
+        { group: '3.-4.klase', lessons: ['1-2 8.30-10.00', '3 10.20-11.00', 'P 11.00-11.30', '4 11.30-12.10', '5 12.00-12.40', 'P 12.40-13.10', '6 13.10-13.50', '7 14.00-14.40', '8 15.00-15.40'] },
+        { group: '5.m', lessons: ['1 8.30-9.10', '2 9.20-10.00', '3 10.20-11.00', 'P 11.00-11.30', '4 11.30-12.10', '5 12.00-12.40', 'P 12.40-13.10', '6 13.10-13.50', '7 14.00-14.40', '8 15.00-15.40'] },
+        { group: '5.a,5.b;6.a,6.b', lessons: ['1-2 8.30-10.00', '3 10.20-11.00', '4 11.10-11.50', '5 12.20-13.00', '6 13.10-13.50', '7 14.00-14.40', '8 15.00-15.40'] }
+    ],
+    'Piektdiena': [
+        { group: '1.-2.klase', lessons: ['1-2 8.30-10.00', '3 10.20-11.00', '4 11.10-11.50', 'P 11.50-12.20', '5 12.10-12.50', 'P 12.50-13.20', '6 13.10-13.50', '7 14.00-14.40', 'Launags 14.40-15.00', '8 14.50-15.30'] },
+        { group: '3.-4.klase', lessons: ['1-2 8.30-10.00', '3 10.20-11.00', 'P 11.00-11.30', '4 11.30-12.10', '5 12.00-12.40', 'P 12.40-13.10', '6 13.10-13.50', '7 14.00-14.40', '8 15.00-15.40'] },
+        { group: '5.m', lessons: ['1 8.30-9.10', '2 9.20-10.00', '3 10.20-11.00', '4 11.10-11.50', '5 12.00-12.40', 'P 12.40-13.10', '6 13.10-13.50', '7 14.00-14.40', '8 14.50-15.30'] },
+        { group: '5.a,5.b;6.a,6.b', lessons: ['1-2 8.30-10.00', '3 10.20-11.00', '4 11.10-11.50', '5 12.20-13.00', 'P 12.40-13.10', '6 13.10-13.50', '7 14.00-14.40', '8 15.00-15.40'] }
+    ]
+};
+
+const lessonTimesS = {}; // Placeholder for Š, manual add later.
+
+const gradeToGroup = {
+    '1a': '1.-2.klase',
+    '1b': '1.-2.klase',
+    '1m': '1.-2.klase',
+    '2a': '1.-2.klase',
+    '2b': '1.-2.klase',
+    '2m': '1.-2.klase',
+    '3a': '3.a;5.a,5.b;6.a,6.b',
+    '3b': '3.b,3.m-4.klase',
+    '3m': '3.b,3.m-4.klase',
+    '4a': '3.b,3.m-4.klase',
+    '4b': '3.b,3.m-4.klase',
+    '4m': '3.b,3.m-4.klase',
+    '5a': '3.a;5.a,5.b;6.a,6.b',
+    '5b': '3.a;5.a,5.b;6.a,6.b',
+    '5m': '5.m',
+    '6a': '3.a;5.a,5.b;6.a,6.b',
+    '6b': '3.a;5.a,5.b;6.a,6.b'
+};
+
 // Pilni grafika dati latviešu valodā
-const scheduleData = [
+const scheduleDataK = [
     {
         name: "1. klašu koris",
         hours: 2,
@@ -38,18 +117,6 @@ const scheduleData = [
         thu: "",
         fri: "14.00-15.00 (2.-4. kl.)",
         classes: "2, 3, 4"
-    },
-    {
-        name: "4. –7. klašu zēnu koris",
-        hours: 2,
-        location: "Šampētera iela 98 / 414.",
-        teacher: "Didzis Soste",
-        mon: "14.40-16.00 (4.m, 5.m klase)",
-        tue: "",
-        wed: "",
-        thu: "",
-        fri: "",
-        classes: "4.m, 5.m"
     },
     {
         name: "Vokālais ansamblis „Mellenes” 2. klase",
@@ -338,8 +405,22 @@ const scheduleData = [
         thu: "11.30-12.10 (3.m kl.)",
         fri: "10.20-11.00 (4.b kl.)",
         classes: "3.a, 3.b, 3.m, 4.a, 4.b, 4.m"
+    }
+];
+
+const scheduleDataS = [
+    {
+        name: "4. –7. klašu zēnu koris",
+        hours: 2,
+        location: "Šampētera iela 98 / 414.",
+        teacher: "Didzis Soste",
+        mon: "14.40-16.00 (4.m, 5.m klase)",
+        tue: "",
+        wed: "",
+        thu: "",
+        fri: "",
+        classes: "4.m, 5.m"
     },
-    // Entries from sheet "Š98" (higher grades, different location)
     {
         name: "5. –9. klašu koris „Rīta spārni”",
         hours: 8,
@@ -402,9 +483,8 @@ const scheduleData = [
     }
 ];
 
-// Funkcija, lai ģenerētu dropdown - tikai individuālās paralēlās klases
-function generateSuggestions() {
-    // Precīzs visu unikālo paralēlo klašu saraksts no grafika
+// Generate grade select options
+function generateGradeOptions() {
     const allClasses = [
         "1.a", "1.b", "1.m",
         "2.a", "2.b", "2.m",
@@ -413,18 +493,159 @@ function generateSuggestions() {
         "5.a", "5.b", "5.m",
         "6.a", "6.b"
     ];
-    // Sakārto pēc klases numura, tad pēc burta
     const sortedSuggestions = allClasses.sort((a, b) => {
         const gradeA = parseInt(a.match(/(\d+)/)[1]);
         const gradeB = parseInt(b.match(/(\d+)/)[1]);
         if (gradeA !== gradeB) return gradeA - gradeB;
         return a.localeCompare(b);
     });
-    const select = document.getElementById('searchInput');
-    select.innerHTML = '<option disabled selected value="">Izvēlieties klasi...</option>' + sortedSuggestions.map(s => `<option value="${s}">${s}</option>`).join('');
+    const select = document.getElementById('grade-select');
+    select.innerHTML = '<option value="">Visas klases</option>' + sortedSuggestions.map(s => `<option value="${s}">${s}</option>`).join('');
 }
 
-// Funkcija, lai filtrētu attiecīgos laikus no dienas virknes
+// Current selections
+let currentSection = 'pulcint'; // pulcint, stundu, konsultaciju
+let currentGrade = '';
+
+// Filter functions
+function getScheduleData(address) {
+    return address === 'K' ? scheduleDataK : scheduleDataS;
+}
+
+function getKonsultacijasData(address) {
+    return address === 'K' ? konsultacijasDataK : konsultacijasDataS;
+}
+
+function filterByGrade(data, grade) {
+    if (!grade) return data;
+    return data.filter(item => {
+        if (currentSection === 'konsultaciju') {
+            return item.classes.toLowerCase().includes(grade.toLowerCase());
+        } else {
+            return item.classes && item.classes.toLowerCase().includes(grade.toLowerCase());
+        }
+    });
+}
+
+// Update content based on selections
+function updateContent() {
+    const contentDiv = document.getElementById('content');
+    const noResultsDiv = document.getElementById('noResults');
+    let data;
+    let title;
+
+    if (currentSection === 'pulcint') {
+        data = filterByGrade(getScheduleData(currentAddress), currentGrade);
+        title = currentGrade ? `${currentGrade} klase - Pulciņu laiki` : `Visas klases - Pulciņu laiki (${currentAddress})`;
+    } else if (currentSection === 'stundu') {
+        // For stundu, use lessonTimesK or S based on address, filter by grade
+        const timesData = currentAddress === 'K' ? lessonTimesK : lessonTimesS;
+        title = currentGrade ? `${currentGrade} klase - Stundu saraksts (${currentAddress})` : `Stundu saraksts (${currentAddress})`;
+    } else if (currentSection === 'konsultaciju') {
+        data = filterByGrade(getKonsultacijasData(currentAddress), currentGrade);
+        title = currentGrade ? `${currentGrade} klase - Konsultāciju laiki` : `Visas klases - Konsultāciju laiki (${currentAddress})`;
+    }
+
+    let html = `<h2>${title}</h2>`;
+
+    if (currentSection === 'stundu') {
+        html += renderLessonTable();
+    } else {
+        if (data.length === 0) {
+            noResultsDiv.classList.remove('hidden');
+            contentDiv.innerHTML = '';
+            return;
+        }
+        noResultsDiv.classList.add('hidden');
+        html += data.map(item => `
+            <div class="card">
+                <h3>${item.name}</h3>
+                <div class="sub-card">
+                    <div class="teacher">Skolotāja: ${item.teacher || 'TBD'}</div>
+                    ${item.location ? `<div class="location">Nodarbību vieta: ${item.location}</div>` : ''}
+                    ${currentSection === 'konsultaciju' ? `
+                        <div>Stundas: ${item.hours}</div>
+                        <div>Telpa: ${item.telpa || ''}</div>
+                        ${getRelevantDayTimes('pirmdiena', item.pirmdiena, currentGrade)}
+                        ${getRelevantDayTimes('otrdiena', item.otrdiena, currentGrade)}
+                        ${getRelevantDayTimes('trešdiena', item.tresdiena, currentGrade)}
+                        ${getRelevantDayTimes('ceturtdiena', item.ceturtdiena, currentGrade)}
+                        ${getRelevantDayTimes('piektdiena', item.piektdiena, currentGrade)}
+                    ` : `
+                        ${getRelevantDayTimes('Pirmdiena', item.mon, currentGrade)}
+                        ${getRelevantDayTimes('Otrdiena', item.tue, currentGrade)}
+                        ${getRelevantDayTimes('Trešdiena', item.wed, currentGrade)}
+                        ${getRelevantDayTimes('Ceturtdiena', item.thu, currentGrade)}
+                        ${getRelevantDayTimes('Piektdiena', item.fri, currentGrade)}
+                    `}
+                </div>
+            </div>
+        `).join('');
+    }
+
+    contentDiv.innerHTML = html;
+}
+
+// Render lesson table
+function renderLessonTable() {
+    const timesData = currentAddress === 'K' ? lessonTimesK : lessonTimesS;
+    const days = ['Pirmdiena', 'Otrdiena', 'Trešdiena', 'Ceturtdiena', 'Piektdiena'];
+    let groups = [...new Set(Object.values(timesData).flat().map(g => g.group))].sort(); // Unique groups
+
+    if (currentGrade) {
+        // Show only the group for selected grade
+        const selectedGroup = gradeToGroup[currentGrade.toLowerCase()];
+        groups = groups.filter(g => g === selectedGroup);
+    }
+
+    let html = '<table class="lesson-table">';
+    html += '<thead><tr><th>Grupa</th>' + days.map(day => `<th>${day}</th>`).join('') + '</tr></thead><tbody>';
+
+    groups.forEach(group => {
+        html += `<tr><td>${group}</td>`;
+        days.forEach(day => {
+            const dayData = timesData[day] || [];
+            const groupData = dayData.find(g => g.group === group);
+            const lessons = groupData ? groupData.lessons.join('<br>') : '';
+            html += `<td>${lessons}</td>`;
+        });
+        html += '</tr>';
+    });
+
+    html += '</tbody></table>';
+    return html;
+}
+
+// Event handlers
+function handleAddressToggle() {
+    const toggle = document.getElementById('address-toggle');
+    currentAddress = toggle.checked ? 'K' : 'Š';
+    updateContent();
+}
+
+function handleSectionChange(e) {
+    currentSection = e.target.value;
+    updateContent();
+}
+
+function handleGradeChange(e) {
+    currentGrade = e.target.value;
+    updateContent();
+}
+
+// Function to get relevant day times for grade filtering
+function getRelevantDayTimes(dayName, dayTimes, grade) {
+    if (!dayTimes || !grade) return '';
+    const parts = dayTimes.includes(';') ? dayTimes.split(';') : [dayTimes];
+    const relevant = parts.filter(part => part.toLowerCase().includes(grade.toLowerCase()));
+    if (relevant.length > 0) {
+        const combined = relevant.join('; ');
+        return `<div class="day">${dayName}: ${combined}</div>`;
+    }
+    return '';
+}
+
+// Funkcija, lai filtrētu attiecīgos laikus no dienas virknes (legacy for search)
 function getRelevantTimes(dayTimes, searchClass) {
     if (!dayTimes) return '';
     const parts = dayTimes.split(';');
@@ -573,6 +794,14 @@ function closeLogin() {
     alert('Lai turpinātu, lūdzu, ievadiet paroli!');
 }
 
+function clearSelections() {
+    currentGrade = '';
+    document.getElementById('grade-select').value = '';
+    document.querySelector('input[name="section"][value="pulcint"]').checked = true;
+    currentSection = 'pulcint';
+    updateContent();
+}
+
 function logout() {
     const mainContent = document.getElementById('mainContent');
     const loginModal = document.getElementById('loginModal');
@@ -580,13 +809,11 @@ function logout() {
     if (mainContent) mainContent.classList.add('hidden');
     if (loginModal) loginModal.style.display = 'block';
     if (loginError) loginError.classList.add('hidden');
-    const searchInput = document.getElementById('searchInput');
-    if (searchInput) searchInput.value = '';
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    generateSuggestions();
-    showAll(); // Sagatavo saturu fonā
+    generateGradeOptions();
+    updateContent(); // Initialize content
 
     // Ielādē saglabāto dark mode
     const savedMode = localStorage.getItem('darkMode');
@@ -621,8 +848,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    const searchInput = document.getElementById('searchInput');
-    if (searchInput) searchInput.addEventListener('change', (e) => performSearch(e.target.value));
+    // New event listeners for nav
+    const addressToggle = document.getElementById('address-toggle');
+    if (addressToggle) addressToggle.addEventListener('change', handleAddressToggle);
+
+    const sectionRadios = document.querySelectorAll('input[name="section"]');
+    sectionRadios.forEach(radio => radio.addEventListener('change', handleSectionChange));
+
+    const gradeSelect = document.getElementById('grade-select');
+    if (gradeSelect) gradeSelect.addEventListener('change', handleGradeChange);
 
     const themeToggle = document.getElementById('theme-toggle');
     if (themeToggle) themeToggle.addEventListener('click', toggleDarkMode);

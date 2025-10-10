@@ -66,18 +66,23 @@ header {
 .search-section {
     text-align: center;
     margin-bottom: 30px;
+    display: flex; /* Jauns — flex centrēšana */
+    flex-direction: column; /* Vertikāli stekojums mazos ekrānos */
+    align-items: center; /* Horizontāli centrē visu */
+    gap: 10px; /* Telpa starp elementiem */
 }
 
 #searchInput {
     padding: 12px;
-    width: 300px;
-    max-width: 80%;
+    width: 100%; /* Mainīts no 300px — pilna platums, bet ierobežots */
+    max-width: 300px; /* Maksimāli 300px, bet mazākos ekrānos pielāgojas */
     border: 2px solid var(--accent-color);
     border-radius: 4px;
     font-size: 16px;
     background-color: var(--card-bg);
     color: var(--text-color);
     transition: border-color var(--transition), background-color var(--transition), color var(--transition);
+    box-sizing: border-box; /* Iekļauj padding platumā */
 }
 
 button {
@@ -248,6 +253,157 @@ footer a {
     background-color: darken(var(--secondary-accent), 10%); /* Vai specifiska krāsa, piem. #c9302c dark mode */
 }
 
+/* Toggle Switch for Address */
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 30px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 30px;
+    overflow: hidden;
+}
+
+.slider-text-k {
+    position: absolute;
+    left: 15px; /* K toggle */
+    top: 50%;
+    transform: translateY(-50%);
+    font-weight: bold;
+    color: #666;
+    z-index: 1;
+    transition: color 0.4s;
+}
+
+.slider-text-s {
+    position: absolute;
+    right: 15px; /* S Toggle */
+    top: 50%;
+    transform: translateY(-50%);
+    font-weight: bold;
+    color: purple;
+    z-index: 1;
+    transition: color 0.4s;
+}
+
+input:checked + .slider .slider-text-k {
+    color: purple;
+}
+
+input:checked + .slider .slider-text-s {
+    color: #666;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 2px;
+    bottom: 2px;
+    background-color: #4a7c59;
+    transition: .4s;
+    border-radius: 50%;
+    border: 2px solid white;
+    z-index: 2;
+}
+
+input:checked + .slider {
+    background-color: #ccc;
+}
+
+input:checked + .slider:before {
+    transform: translateX(30px);
+}
+
+/* Radio Group */
+.nav-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+    background-color: var(--card-bg);
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+.radio-group {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.radio-group label {
+    margin: 0 10px;
+    cursor: pointer;
+    color: var(--text-color);
+}
+
+.radio-group input[type="radio"] {
+    margin-right: 5px;
+}
+
+.button-group {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+#grade-select {
+    padding: 12px;
+    width: 300px;
+    border: 2px solid var(--accent-color);
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    transition: border-color var(--transition);
+}
+
+/* Lesson Table Styles */
+.lesson-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--card-bg);
+    color: var(--text-color);
+}
+
+.lesson-table th, .lesson-table td {
+    border: 1px solid var(--border-color);
+    padding: 8px;
+    text-align: center;
+    vertical-align: top;
+}
+
+.lesson-table th {
+    background-color: var(--header-bg);
+    color: var(--text-color);
+}
+
+.lesson-table .highlight {
+    background-color: var(--day-bg); /* Highlight color */
+    color: var(--text-color);
+    font-weight: bold;
+}
+
 /* Dark Mode Toggle Button */
 .theme-toggle {
     background-color: var(--accent-color);
@@ -314,6 +470,9 @@ footer a {
     body {
         padding: 5px;
     }
+
+
+}
 
     header {
         padding: 10px;
