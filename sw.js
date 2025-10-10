@@ -4,7 +4,8 @@ const urlsToCache = [
     '/index.html',
     '/styles.css',
     '/script.js',
-    '/schedule.pdf', // Ja PDF ir mapē
+    '/KalnciemaStunduLaiki.pdf', // K Stundu Laiki
+    '/KalnciemaPulcinuSaraksts.pdf', // K Pulciņu Saraksts
     '/manifest.json',
     '/icon-192.png',
     '/icon-512.png'

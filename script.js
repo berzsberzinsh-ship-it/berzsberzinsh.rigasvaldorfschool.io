@@ -504,7 +504,7 @@ function generateGradeOptions() {
 }
 
 // Current selections
-let currentSection = 'pulcint'; // pulcint, stundu, konsultaciju
+let currentSection = 'pulcins'; // pulcint, stundu, konsultaciju
 let currentGrade = '';
 
 // Filter functions
@@ -534,7 +534,7 @@ function updateContent() {
     let data;
     let title;
 
-    if (currentSection === 'pulcint') {
+    if (currentSection === 'pulcins') {
         data = filterByGrade(getScheduleData(currentAddress), currentGrade);
         title = currentGrade ? `${currentGrade} klase - Pulciņu laiki` : `Visas klases - Pulciņu laiki (${currentAddress})`;
     } else if (currentSection === 'stundu') {
@@ -561,7 +561,7 @@ function updateContent() {
             <div class="card">
                 <h3>${item.name}</h3>
                 <div class="sub-card">
-                    <div class="teacher">Skolotāja: ${item.teacher || 'TBD'}</div>
+                    <div class="teacher">Skolotājs: ${item.teacher || 'TBD'}</div>
                     ${item.location ? `<div class="location">Nodarbību vieta: ${item.location}</div>` : ''}
                     ${currentSection === 'konsultaciju' ? `
                         <div>Stundas: ${item.hours}</div>
@@ -723,7 +723,7 @@ function renderResults(items, searchType, query) {
             <h3>${query} klase (Pulciņi un laiki)</h3>
             ${items.map(item => `
                 <div class="sub-card">
-                    <div class="teacher">Skolotāja: ${item.teacher || 'TBD'}</div>
+                    <div class="teacher">Skolotājs: ${item.teacher || 'TBD'}</div>
                     <div class="name">${item.name}</div>
                     <div class="location">Nodarbību vieta: ${item.location}</div>
                     ${getRelevantTimes(item.mon, query) ? `<div class="day">Pirmdiena: ${getRelevantTimes(item.mon, query)}</div>` : ''}
@@ -750,7 +750,7 @@ function renderResults(items, searchType, query) {
                 <h3>${key} ${titleSuffix}</h3>
                 ${groupItems.map(item => `
                     <div class="sub-card">
-                        <div class="teacher">Skolotāja: ${item.teacher || 'TBD'}</div>
+                        <div class="teacher">Skolotājs: ${item.teacher || 'TBD'}</div>
                         <div class="name">${item.name}</div>
                         <div class="location">Nodarbību vieta: ${item.location}</div>
                         ${item.mon ? `<div class="day">Pirmdiena: ${item.mon}</div>` : ''}
@@ -797,8 +797,8 @@ function closeLogin() {
 function clearSelections() {
     currentGrade = '';
     document.getElementById('grade-select').value = '';
-    document.querySelector('input[name="section"][value="pulcint"]').checked = true;
-    currentSection = 'pulcint';
+    document.querySelector('input[name="section"][value="pulcins"]').checked = true;
+    currentSection = 'pulcins';
     updateContent();
 }
 
@@ -861,3 +861,4 @@ document.addEventListener('DOMContentLoaded', () => {
     const themeToggle = document.getElementById('theme-toggle');
     if (themeToggle) themeToggle.addEventListener('click', toggleDarkMode);
 });
+Skolotāja

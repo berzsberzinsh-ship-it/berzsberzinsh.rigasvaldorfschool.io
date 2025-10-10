@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rīgas Valdorfskolas Interešu Izglītības Plānojums 2025/2026</title>
+    <title>Rīgas Valdorfskolas TEST MODE</title>
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="styles.css"> <!-- Pievieno, ja aizmirsi — tas ir vajadzīgs! -->
 </head>
@@ -13,7 +13,7 @@
         <div class="modal-content">
             <span class="close" onclick="closeLogin()">&times;</span>
             <h2>Ienākt sistēmā</h2>
-            <p>Lai redzētu grafiku, lūdzu, ievadīt paroli.</p> <!-- Mainīts uz jauno paroli -->
+            <p>Lai redzētu grafiku, lūdzu, ievadīt paroli.</p>
             <form id="loginForm">
                 <input type="password" id="passwordInput" placeholder="Parole" required>
                 <button type="submit">Ienākt</button>
@@ -36,15 +36,15 @@
                     </span>
                 </label>
             </div>
-            <button id="theme-toggle">Tumšā Mode 🌙</button>
+            <button id="theme-toggle">🌙</button>
         </header>
 
         <main>
             <div class="nav-box">
                 <div class="radio-group">
-                    <label><input type="radio" name="section" value="pulcint" checked> Pulciņu laiki</label>
                     <label><input type="radio" name="section" value="stundu"> Stundu saraksts</label>
-                    <label><input type="radio" name="section" value="konsultaciju"> Konsultāciju laiki</label>
+                    <label><input type="radio" name="section" value="konsultaciju"> Konsultāciju saraksts</label>
+                    <label><input type="radio" name="section" value="pulcins" checked> Pulciņu saraksts</label>
                 </div>
                 <select id="grade-select">
                     <option value="">Izvēlieties klasi</option>
